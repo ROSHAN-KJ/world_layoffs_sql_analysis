@@ -1,8 +1,22 @@
+-- =====================================================================
+-- Author: ROSHAN KUMAR
+-- Project: Sequential Multi-File SQL Project
+-- File: 01_schema.sql
+-- Description: Establishes the core database structure and defines the 
+--              final schema for the production-ready tables.
+-- Dependencies: None (First file in the execution sequence).
+-- =====================================================================
 -- DATABASE CREATION 
 
 DROP DATABASE IF EXISTS world_layoffs;
 CREATE DATABASE world_layoffs;
 USE world_layoffs;
+
+-- [DATA IMPORT NOTE]
+-- The data for the table below was imported using the MySQL Workbench
+-- Table Data Import Wizard.
+-- File source: ""C:\Users\palla\OneDrive\Desktop\Roshan\World_layoffs_SQL project\layoffs.csv""
+-- Target Table: world_layoffs.layoffs
 
 CREATE TABLE `layoffs` (
   `company` text,

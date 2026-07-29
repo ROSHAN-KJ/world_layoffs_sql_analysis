@@ -1,32 +1,50 @@
--- ================================================================================================================
--- Author: Roshan Kumar
+-- =====================================================================
+-- Author: ROSHAN KUMAR
+-- Project: Sequential Multi-File SQL Project
 -- File: 03_data_cleaning.sql
--- Description: Cleans raw staging data, handles duplicates, blanks, and null values, and standardizes the data.
--- ================================================================================================================
--- DATA CLEANING & STAGING
+-- Description: Performs data hygiene operations, removes duplicates, 
+--              handles missing values, and standardizes formats from the 
+--              raw staging table into the production environment.
+-- Dependencies: Requires 01_schema.sql and 02_import_staging.sql 
+--              (with imported CSV data) to be executed first.
+-- =====================================================================
+
 USE world_layoffs;
 
--- CREATE STAGING TABLE
-CREATE TABLE layoff_staging
-LIKE layoffs;
-
-INSERT layoff_staging
-SELECT *
-FROM layoffs;
-
+-- DATA CLEANING 
 -- REMOVE DUPLICATES
 -- Use Row_number to check for duplicates, as this table does not have any primary key
 SELECT *,
-ROW_NUMBER() OVER(
-PARTITION BY company, location, industry, total_laid_off, percentage_laid_off, `date`, stage, country, funds_raised_millions) AS row_num
+	ROW_NUMBER() OVER(
+		PARTITION BY 
+			company
+			, location
+			, industry
+			, total_laid_off
+			, percentage_laid_off
+			, `date`
+			, stage
+			, country
+			, funds_raised_millions
+	) AS row_num
 FROM layoff_staging;
 
 -- Use CTE to confirm the duplicates
 WITH duplicate_cte AS 
 (
 SELECT *,
-ROW_NUMBER() OVER(
-PARTITION BY company, location, industry, total_laid_off, percentage_laid_off, `date`, stage, country, funds_raised_millions) AS row_num
+	ROW_NUMBER() OVER(
+		PARTITION BY 
+			company
+            , location
+            , industry
+            , total_laid_off
+            , percentage_laid_off
+            , `date`
+            , stage
+            , country
+            , funds_raised_millions
+	) AS row_num
 FROM layoff_staging
 )
 SELECT *
@@ -54,9 +72,20 @@ CREATE TABLE `layoff_staging2` (
 
 INSERT INTO layoff_staging2
 SELECT *,
-ROW_NUMBER() OVER(
-PARTITION BY company, location, industry, total_laid_off, percentage_laid_off, `date`, stage, country, funds_raised_millions) AS row_num
-FROM layoff_staging;
+	ROW_NUMBER() OVER(
+		PARTITION BY 
+			company
+			, location
+			, industry
+			, total_laid_off
+			, percentage_laid_off
+			, `date`
+			, stage
+			, country
+			, funds_raised_millions
+	) AS row_num
+FROM layoff_staging
+;
 
 SELECT *
 FROM layoff_staging2
@@ -67,7 +96,9 @@ FROM layoff_staging2
 WHERE row_num > 1;
 
 -- STANDARDIZING DATA 
-SELECT company, TRIM(company)
+SELECT 
+	company
+	, TRIM(company)
 FROM layoff_staging2;
 
 UPDATE layoff_staging2
@@ -89,8 +120,9 @@ SET country = 'United States'
 WHERE country LIKE 'United States%';
 
 -- Change dates from varchar to date format
-SELECT `date`,
-STR_TO_DATE(`date`, '%m/%d/%Y')
+SELECT 
+	`date`
+	, STR_TO_DATE(`date`, '%m/%d/%Y')
 FROM layoff_staging2;
 
 UPDATE layoff_staging2
