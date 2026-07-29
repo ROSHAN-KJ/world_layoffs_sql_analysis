@@ -1,0 +1,9 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+#IDE & Database Cache
+.vscode/
+.idea/
+*.sql.bak
