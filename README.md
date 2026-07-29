@@ -69,11 +69,11 @@ The analysis phase answers 12 core business questions split into four analytical
 
 ## 📈 Example Query Output Previews
 ### Most Funded Companies with 100% Layoffs
-![Total_Layoff Output](assets/Company_layoff_Output.png)
+![100% Layoff Output](assets/Company_layoff_Output.png)
 ### Top Downsizing Companies Ranked Annually
-[Rolling_Total_Output](assets/Rolling_Total_Output.png)
+![Top companies Output](assets/Top_companies_Output.png)
 ### Cumulative Running Total of Layoffs
-[Top_companies_Output](assets/Top_companies_Output.png)
+![Rolling Total Output](assets/Rolling_Total_Output.png)
 
 ## 🚀 How to Run This Project
 1. Clone or download this repository locally.
